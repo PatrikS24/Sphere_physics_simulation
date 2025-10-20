@@ -130,6 +130,33 @@ void reshape(int w, int h) {
     glMatrixMode(GL_MODELVIEW);
 }
 
+void mouseCallback(int button, int state, int x, int y)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    io.AddMouseButtonEvent(button, state == GLUT_DOWN);
+}
+
+void motionCallback(int x, int y)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    io.AddMousePosEvent((float)x, (float)y);
+}
+
+void keyboardCallback(unsigned char key, int x, int y)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    io.AddInputCharacter(key);
+}
+
+
+void registerImguiCallbacks()
+{
+    glutMouseFunc(mouseCallback);
+    glutMotionFunc(motionCallback);
+    glutPassiveMotionFunc(motionCallback);
+    glutKeyboardFunc(keyboardCallback);
+}
+
 int main(int argc, char** argv) {
     world = new World();
     static Sphere sphere1(world);
@@ -150,6 +177,7 @@ int main(int argc, char** argv) {
     glutCreateWindow("Sphere physics simulation");
 
     init();
+    registerImguiCallbacks();
     glutDisplayFunc(display);
     glutIdleFunc(idle);
     glutReshapeFunc(reshape);
