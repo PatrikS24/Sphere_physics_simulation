@@ -15,6 +15,7 @@ class Sphere : public RigidBody
     public:
         World *world;
         double radius{1};
+        vector3D<double> color = vector3D<double>(0.7, 0.1, 0.1);
         explicit Sphere(World* _world);
         void update();
         void collision();

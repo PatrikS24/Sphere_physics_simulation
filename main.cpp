@@ -39,13 +39,16 @@ void idle() {
 
 void renderSphere(GLUquadric* quad, Sphere* sphere)
 {
+    vector3D<double> sphereColor = sphere->color;
+    glColor3f(sphereColor.x, sphereColor.y, sphereColor.z);
+
     glPushMatrix();
     glTranslatef(sphere->position.x, sphere->position.y, sphere->position.z);
     gluSphere(quad, sphere->radius, 32, 32);
     glPopMatrix();
 }
 
-void fpsCounter()
+void calculateFps()
 {
     frameCount++;
 
@@ -56,10 +59,6 @@ void fpsCounter()
         fps = frameCount / (timeInterval / 1000.0f);
         previousTime = currentTime;
         frameCount = 0;
-
-        char title[64];
-        sprintf(title, "FPS: %.2f", fps);
-        glutSetWindowTitle(title);
     }
 }
 
@@ -94,14 +93,12 @@ void display() {
 
     // Main functions
     calcualateDeltaTime();
-    fpsCounter();
+    calculateFps();
     world->update();
 
     // Render spheres
     GLUquadric* quad = gluNewQuadric();
     gluQuadricNormals(quad, GLU_SMOOTH);
-
-    glColor3f(0.7f, 0.1f, 0.1f);
 
     for (Sphere* sphere : world->spheres)
     {
@@ -113,7 +110,7 @@ void display() {
 
     // Add an ImGui window
     ImGui::Begin("ImGui Overlay");
-    ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
+    ImGui::Text("FPS: %.1f", fps);
     ImGui::End();
 
     // Render ImGui on top of your scene
@@ -150,7 +147,7 @@ int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(width, height);
-    glutCreateWindow("GLU Sphere Example");
+    glutCreateWindow("Sphere physics simulation");
 
     init();
     glutDisplayFunc(display);
