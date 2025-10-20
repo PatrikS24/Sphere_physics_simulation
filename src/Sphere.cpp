@@ -3,17 +3,11 @@
 //
 
 #include "Sphere.h"
-#include "World.h"
+#include "Engine.h"
+#include "Globals.h"
 #include <cstdlib>
 
-static const double gravityStrenght = 100000000000;
 
-Sphere::Sphere(World* _world)
-{
-    world = _world;
-    velocity.load(0,0,0);
-    acceleration.load(0,0,0);
-}
 
 void Sphere::update()
 {
@@ -24,12 +18,12 @@ void Sphere::update()
 
 void Sphere::updatePosition()
 {
-    position += velocity * world->deltaTime;
+    position += velocity * engine->deltaTime;
 }
 
 void Sphere::updateVelocity()
 {
-    velocity += acceleration * world->deltaTime;
+    velocity += acceleration * engine->deltaTime;
 }
 
 
@@ -38,7 +32,7 @@ void Sphere::applyGravity()
 {
     vector3D<double> sumOfGravityVector = calculateNetGravity();
     vector3D<double> gravityAcceleration = sumOfGravityVector / mass;
-    acceleration = gravityAcceleration * gravityStrenght;
+    acceleration = gravityAcceleration * engine->gravityStrenght;
 }
 
 vector3D<double> Sphere::calculateNetGravity()
@@ -48,7 +42,7 @@ vector3D<double> Sphere::calculateNetGravity()
     vector3D<double> sumOfGravityVector;
     sumOfGravityVector.load(0,0,0);
 
-    for (Sphere* sphere : world->spheres)
+    for (Sphere* sphere : engine->spheres)
     {
         if (sphere == this) continue;
 

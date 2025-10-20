@@ -28,9 +28,16 @@ add_executable(C___program
         include/TransformStructs.h
         include/Sphere.h
         include/Vector.h
-        include/World.h
+        include/Engine.h
         src/Sphere.cpp
-        src/World.cpp
+        src/Engine.cpp
+        include/Renderer.h
+        include/ImGuiLayer.h
+        include/Callbacks.h
+        src/Callbacks.cpp
+        src/Renderer.cpp
+        src/ImguiLayer.cpp
+        include/Globals.h
 )
 
 # Tell your executable to link to ImGui
