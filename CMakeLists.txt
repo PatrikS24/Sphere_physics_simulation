@@ -40,6 +40,9 @@ add_executable(C___program
         include/Globals.h
 )
 
+find_library(GLEW_LIB glew32 PATHS "C:/msys64/mingw64/lib")
+target_link_libraries(C___program PRIVATE ${GLEW_LIB})
+
 # Tell your executable to link to ImGui
 target_link_libraries(C___program PRIVATE imgui)
 
@@ -63,4 +66,5 @@ target_link_libraries(C___program PRIVATE
         ${OPENGL_LIBRARIES}
         freeglut
         opengl32
+        glew32
 )

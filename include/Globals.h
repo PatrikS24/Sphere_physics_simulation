@@ -8,5 +8,8 @@
 #include "Engine.h"
 
 extern Engine *engine;
+extern int windowWidth;
+extern int windowHeight;
+extern int guiWidth;
 
 #endif //C___PROGRAM_GLOBALS_H

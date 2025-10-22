@@ -5,10 +5,10 @@
 #ifndef C___PROGRAM_CALLBACKS_H
 #define C___PROGRAM_CALLBACKS_H
 
-void InitGLUT(int argc, char** argv, int w, int h, const char* title);
-void DisplayCallback();
-void ReshapeCallback(int w, int h);
-void RegisterInputCallbacks();
+void initGLUT(int argc, char** argv, int w, int h, const char* title);
+void displayCallback();
+void reshapeCallback(int w, int h);
+void registerInputCallbacks();
 void idleCallback();
 
 #endif //C___PROGRAM_CALLBACKS_H

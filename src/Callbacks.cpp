@@ -1,16 +1,15 @@
 //
 // Created by patri on 20/10/2025.
 //
-
 #include "Callbacks.h"
 #include "Renderer.h"
+#include <GL/glew.h>
 #include "ImGuiLayer.h"
 #include "backends/imgui_impl_opengl3.h"
-#include <GL/freeglut.h>
 
 #include "Globals.h"
 
-void InitGLUT(int argc, char** argv, int w, int h, const char* title)
+void initGLUT(int argc, char** argv, int w, int h, const char* title)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
@@ -24,10 +23,10 @@ void idleCallback() {
     glutPostRedisplay();  // Tell GLUT "please call display() again soon"
 }
 
-void DisplayCallback()
+void displayCallback()
 {
     BeginImGuiFrame();
-    DrawScene();
+    renderScene();
 
     engine->update();
 
@@ -40,7 +39,7 @@ void DisplayCallback()
     glutSwapBuffers();
 }
 
-void ReshapeCallback(int w, int h)
+void reshapeCallback(int w, int h)
 {
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
@@ -68,7 +67,7 @@ void keyboardCallback(unsigned char key, int x, int y)
 }
 
 
-void RegisterInputCallbacks()
+void registerInputCallbacks()
 {
     // set mouse/keyboard callbacks here
     glutMouseFunc(mouseCallback);

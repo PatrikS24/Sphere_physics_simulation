@@ -3,9 +3,9 @@
 //
 
 #include "ImGuiLayer.h"
+#include <GL/freeglut.h>
 #include "imgui.h"
 #include "backends/imgui_impl_opengl3.h"
-#include <GL/freeglut.h>
 
 void InitImGui()
 {

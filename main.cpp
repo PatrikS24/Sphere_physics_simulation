@@ -1,3 +1,5 @@
+#include <GL/glew.h>
+
 #include "Callbacks.h"
 #include "Renderer.h"
 #include "ImGuiLayer.h"
@@ -7,6 +9,9 @@
 
 
 Engine *engine = nullptr;
+int windowWidth = 800;
+int windowHeight = 600;
+int guiWidth = windowWidth / 3;
 
 
 int main(int argc, char** argv) {
@@ -22,18 +27,26 @@ int main(int argc, char** argv) {
     sphere2->radius = 0.5;
     sphere1->mass = 10;
 
+    Sphere *sphere3 = new Sphere();
+    sphere3->position.x = -4;
+    sphere3->velocity = vector3D<double>(0, 5, 0);
+
     engine->spheres.push_back(sphere1);
     engine->spheres.push_back(sphere2);
+    engine->spheres.push_back(sphere3);
 
-    InitGLUT(argc, argv, 800, 400, "Sphere physics simulation");
+    initGLUT(argc, argv, 800, 600, "Sphere physics simulation");
+    glewInit();
 
-    InitRenderer();
+    initRenderer();
     InitImGui();
 
-    glutDisplayFunc(DisplayCallback);
-    glutReshapeFunc(ReshapeCallback);
+    glutDisplayFunc(displayCallback);
+    glutReshapeFunc(reshapeCallback);
     glutIdleFunc(idleCallback);
-    RegisterInputCallbacks();
+    registerInputCallbacks();
+
+    createFramebuffer();
 
     glutMainLoop();
 

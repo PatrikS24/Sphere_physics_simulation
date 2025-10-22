@@ -6,10 +6,17 @@
 #define C___PROGRAM_RENDERER_H
 #include "vector.h"
 #include "Sphere.h"
+#include <GL/glew.h>
 #include <GL/freeglut.h>
 
-void InitRenderer();
-void DrawScene();
+
+extern GLuint fbo;
+extern GLuint colorTex;
+extern GLuint depthRb;
+
+void initRenderer();
+void renderScene();
 void renderSphere(GLUquadric* quad, Sphere* sphere);
+void createFramebuffer();
 
 #endif //C___PROGRAM_RENDERER_H
