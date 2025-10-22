@@ -31,6 +31,7 @@ void renderScene()
     // Draw to framebuffer
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     glViewport(0, 0, windowWidth - guiWidth, windowHeight);
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glLoadIdentity();
@@ -66,25 +67,32 @@ void renderSphere(GLUquadric* quad, Sphere* sphere)
     glPopMatrix();
 }
 
-void createFramebuffer()
+void createFramebuffer(int width, int height)
 {
-    glGenTextures(1, &colorTex);
-    glBindTexture(GL_TEXTURE_2D, colorTex);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowWidth - guiWidth, windowHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glGenRenderbuffers(1, &depthRb);
-    glBindRenderbuffer(GL_RENDERBUFFER, depthRb);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8,windowWidth - guiWidth, windowHeight);
+    if (fbo) {
+        glDeleteFramebuffers(1, &fbo);
+        glDeleteTextures(1, &colorTex);
+        glDeleteRenderbuffers(1, &depthRb);
+    }
 
     glGenFramebuffers(1, &fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+    glGenTextures(1, &colorTex);
+    glBindTexture(GL_TEXTURE_2D, colorTex);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorTex, 0);
+
+    glGenRenderbuffers(1, &depthRb);
+    glBindRenderbuffer(GL_RENDERBUFFER, depthRb);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthRb);
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        printf("Framebuffer not complete!\n");
+        std::cerr << "Framebuffer not complete!\n";
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

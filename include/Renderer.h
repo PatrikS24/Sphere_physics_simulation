@@ -17,6 +17,6 @@ extern GLuint depthRb;
 void initRenderer();
 void renderScene();
 void renderSphere(GLUquadric* quad, Sphere* sphere);
-void createFramebuffer();
+void createFramebuffer(int width, int height);
 
 #endif //C___PROGRAM_RENDERER_H

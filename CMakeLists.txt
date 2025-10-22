@@ -12,6 +12,7 @@ add_library(imgui
         libs/imgui/imgui_draw.cpp
         libs/imgui/imgui_widgets.cpp
         libs/imgui/imgui_tables.cpp
+        libs/imgui/backends/imgui_impl_glut.cpp
         libs/imgui/backends/imgui_impl_opengl3.cpp
 )
 

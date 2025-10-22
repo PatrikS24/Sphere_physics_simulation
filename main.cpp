@@ -11,7 +11,8 @@
 Engine *engine = nullptr;
 int windowWidth = 800;
 int windowHeight = 600;
-int guiWidth = windowWidth / 3;
+float guiAspect = 1 / 3.5f;
+int guiWidth = windowWidth * guiAspect;
 
 
 int main(int argc, char** argv) {
@@ -35,18 +36,16 @@ int main(int argc, char** argv) {
     engine->spheres.push_back(sphere2);
     engine->spheres.push_back(sphere3);
 
-    initGLUT(argc, argv, 800, 600, "Sphere physics simulation");
+    initGLUT(argc, argv, windowWidth, windowHeight, "Sphere physics simulation");
     glewInit();
 
     initRenderer();
-    InitImGui();
+    initImGui();
 
     glutDisplayFunc(displayCallback);
     glutReshapeFunc(reshapeCallback);
     glutIdleFunc(idleCallback);
     registerInputCallbacks();
-
-    createFramebuffer();
 
     glutMainLoop();
 

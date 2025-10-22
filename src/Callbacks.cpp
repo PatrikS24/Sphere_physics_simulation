@@ -15,8 +15,6 @@ void initGLUT(int argc, char** argv, int w, int h, const char* title)
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(w, h);
     glutCreateWindow(title);
-
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 }
 
 void idleCallback() {
@@ -25,15 +23,18 @@ void idleCallback() {
 
 void displayCallback()
 {
-    BeginImGuiFrame();
+    //BeginImGuiFrame();
     renderScene();
+    renderImGui();
 
     engine->update();
 
+    /*
     // Example ImGui window
     ImGui::Begin("Stats");
     ImGui::Text("FPS: %.1f", engine->fps);
     ImGui::End();
+    */
 
     EndImGuiFrame();
     glutSwapBuffers();
@@ -41,11 +42,16 @@ void displayCallback()
 
 void reshapeCallback(int w, int h)
 {
+    windowWidth = w;
+    windowHeight = h;
+    guiWidth = w * guiAspect;
+
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45.0, (double)w / (double)h, 1.0, 100.0);
+    gluPerspective(45.0, (double)(w - guiWidth)/ (double)h, 1.0, 100.0);
     glMatrixMode(GL_MODELVIEW);
+    createFramebuffer(w - guiWidth, h);
 }
 
 void mouseCallback(int button, int state, int x, int y)
