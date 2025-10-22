@@ -4,6 +4,8 @@
 
 #ifndef C___PROGRAM_CALLBACKS_H
 #define C___PROGRAM_CALLBACKS_H
+#include <GL/glew.h>
+
 
 void initGLUT(int argc, char** argv, int w, int h, const char* title);
 void displayCallback();

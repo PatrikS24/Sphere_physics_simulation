@@ -4,6 +4,7 @@
 
 #ifndef C___PROGRAM_IMGUILAYER_H
 #define C___PROGRAM_IMGUILAYER_H
+#include <GL/glew.h>
 
 void initImGui();
 void BeginImGuiFrame();

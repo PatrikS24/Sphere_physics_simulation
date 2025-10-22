@@ -40,6 +40,7 @@ int main(int argc, char** argv) {
     engine->spheres.push_back(sphere2);
     engine->spheres.push_back(sphere3);
 
+
     initGLUT(argc, argv, windowWidth, windowHeight, "Sphere physics simulation");
     glewInit();
 
@@ -58,5 +59,6 @@ int main(int argc, char** argv) {
     delete engine;
     delete sphere1;
     delete sphere2;
+    delete sphere3;
     return 0;
 }

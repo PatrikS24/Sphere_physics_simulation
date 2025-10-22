@@ -3,17 +3,38 @@
 //
 
 #include "Engine.h"
+#include <GL/glew.h>
+
 #include <GL/glut.h>
+
+#include "Globals.h"
+
+Engine::~Engine()
+{
+    for (Sphere* sphere : spheres)
+    {
+        delete sphere;
+    }
+}
+
+void Engine::createSphere()
+{
+    Sphere *sphere = new Sphere();
+    engine->spheres.push_back(sphere);
+}
 
 void Engine::update()
 {
-    calcualateDeltaTime();
+    calculateDeltaTime();
     calculateFps();
-    detectCollisions();
-
-    for (Sphere* sphere : spheres)
+    if (!paused)
     {
-        sphere->update();
+        detectCollisions();
+
+        for (Sphere* sphere : spheres)
+        {
+            sphere->update();
+        }
     }
 }
 
@@ -36,7 +57,7 @@ void Engine::collision(Sphere *sphere1, Sphere *sphere2)
     // Collision
 }
 
-void Engine::calcualateDeltaTime()
+void Engine::calculateDeltaTime()
 {
     static int lastTime = 0;
     int currentTime = glutGet(GLUT_ELAPSED_TIME);

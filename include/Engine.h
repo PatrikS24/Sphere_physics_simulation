@@ -26,12 +26,14 @@ class Engine
         int previousTime = 0;
         float fps = 0;
 
+        ~Engine();
+        void createSphere();
         void update();
         void detectCollisions();
         void collision(Sphere *sphere1, Sphere *sphere2);
 
         void calculateFps();
-        void calcualateDeltaTime();
+        void calculateDeltaTime();
         //World();
 };
 

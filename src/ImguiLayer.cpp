@@ -13,6 +13,7 @@
 
 void renderSimulationGui();
 void renderGeneralPropertiesGui();
+void renderSpherePropertiesGui(int id, Sphere* sphere);
 
 void initImGui()
 {
@@ -50,7 +51,7 @@ void renderGeneralPropertiesGui()
 {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(ImVec2(guiWidth, windowHeight));
-    ImGui::Begin("Properties", NULL, ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("Properties", NULL, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
 
     if (engine->paused)
     {
@@ -79,7 +80,74 @@ void renderGeneralPropertiesGui()
     ImGui::Checkbox("Show gravity Vectors", &showGravityVectors);
     ImGui::Checkbox("Show xyz Axes", &showXyzAxes);
 
+    if (!engine->paused)
+    {
+        ImGui::BeginDisabled();
+    }
+    if (ImGui::Button("Add Sphere"))
+    {
+        engine->createSphere();
+    }
+    if (!engine->paused)
+    {
+        ImGui::EndDisabled();
+    }
+
+    // Sphere properties
+    ImGui::BeginChild("Spheres", ImVec2(0,0), ImGuiWindowFlags_NoResize);
+    ImGui::Text("Spheres");
+
+    for (int i = 0; i < engine->spheres.size(); i++)
+    {
+        renderSpherePropertiesGui(i, engine->spheres[i]);
+    }
+
+    ImGui::EndChild();
+
     ImGui::End();
+}
+
+void renderSpherePropertiesGui(int id, Sphere* sphere)
+{
+    char childName[16];
+    sprintf(childName, "Sphere %d", id);
+    ImGui::BeginChild(childName, ImVec2(0, 155), true);
+
+    if (!engine->paused)
+    {
+        ImGui::BeginDisabled();
+    }
+
+    sprintf(childName, "Sphere %d", id + 1);
+    ImGui::Text(childName);
+
+    float min = 0;
+    float max = 1000;
+    ImGui::DragScalar("Mass", ImGuiDataType_Double, &sphere->mass, 0.5f, &min, &max);
+
+    min = 0;
+    max = 20;
+    ImGui::DragScalar("Radius", ImGuiDataType_Double, &sphere->radius, 0.2f, &min, &max);
+
+    min = 0;
+    max = 20;
+    ImGui::DragScalarN("Position", ImGuiDataType_Double, &sphere->position, 3, 0.1f, &min, &max);
+
+    min = 0;
+    max = 20;
+    ImGui::DragScalarN("Velocity", ImGuiDataType_Double, &sphere->velocity, 3, 0.1f, &min, &max);
+
+    if (ImGui::Button("Remove"))
+    {
+        engine->spheres.erase(engine->spheres.begin() + id);
+    }
+
+    if (!engine->paused)
+    {
+        ImGui::EndDisabled();
+    }
+
+    ImGui::EndChild();
 }
 
 void renderSimulationGui()
