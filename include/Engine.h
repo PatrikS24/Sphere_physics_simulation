@@ -24,7 +24,7 @@ class Engine
         // fps counter variables
         int frameCount = 0;
         int previousTime = 0;
-        float fps = 0;
+        int fps = 0;
 
         ~Engine();
         void createSphere();

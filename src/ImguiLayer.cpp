@@ -14,6 +14,7 @@
 void renderSimulationGui();
 void renderGeneralPropertiesGui();
 void renderSpherePropertiesGui(int id, Sphere* sphere);
+void renderFpsCounter();
 
 void initImGui()
 {
@@ -42,9 +43,14 @@ void renderImGui()
     ImGui_ImplGLUT_NewFrame();
     ImGui::NewFrame();
 
-
     renderGeneralPropertiesGui();
     renderSimulationGui();
+    renderFpsCounter();
+
+    ImGui::Render();
+    glViewport(0, 0, windowWidth, windowHeight);
+    glClear(GL_COLOR_BUFFER_BIT);
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void renderGeneralPropertiesGui()
@@ -162,13 +168,16 @@ void renderSimulationGui()
     ImGui::Image((void*)(intptr_t)colorTex, size, ImVec2(0, 1), ImVec2(1, 0));
 
     ImGui::End();
-
-    ImGui::Render();
-    glViewport(0, 0, windowWidth, windowHeight);
-    glClear(GL_COLOR_BUFFER_BIT);
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
+void renderFpsCounter()
+{
+    ImGui::SetNextWindowSize(ImVec2(90, 20));
+    ImGui::SetNextWindowPos(ImVec2(windowWidth - 90 - 10, 10));
+    ImGui::Begin("FpsCounter", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+    ImGui::Text("FPS: %d", engine->fps);
+    ImGui::End();
+}
 
 void BeginImGuiFrame()
 {
