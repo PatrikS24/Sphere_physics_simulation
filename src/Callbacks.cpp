@@ -7,6 +7,7 @@
 #include <GL/freeglut.h>
 #include "ImGuiLayer.h"
 #include "backends/imgui_impl_opengl3.h"
+#include "backends/imgui_impl_glut.cpp"
 
 #include "Globals.h"
 
@@ -70,8 +71,7 @@ void motionCallback(int x, int y)
 
 void keyboardCallback(unsigned char key, int x, int y)
 {
-    ImGuiIO& io = ImGui::GetIO();
-    io.AddInputCharacter(key);
+    ImGui_ImplGLUT_KeyboardFunc(key, x, y);
 }
 
 

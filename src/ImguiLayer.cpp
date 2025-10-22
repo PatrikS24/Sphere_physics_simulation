@@ -127,8 +127,8 @@ void renderSpherePropertiesGui(int id, Sphere* sphere)
     sprintf(childName, "Sphere %d", id + 1);
     ImGui::Text(childName);
 
-    float min = 0;
-    float max = 1000;
+    double min = 0;
+    double max = 1000;
     ImGui::DragScalar("Mass", ImGuiDataType_Double, &sphere->mass, 0.5f, &min, &max);
 
     min = 0;

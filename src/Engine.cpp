@@ -27,7 +27,7 @@ void Engine::update()
 {
     calculateDeltaTime();
     calculateFps();
-    
+
     if (!paused)
     {
         detectCollisions();
