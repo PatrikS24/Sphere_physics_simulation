@@ -32,7 +32,7 @@ void Sphere::applyGravity()
 {
     vector3D<double> sumOfGravityVector = calculateNetGravity();
     vector3D<double> gravityAcceleration = sumOfGravityVector / mass;
-    acceleration = gravityAcceleration * engine->gravityStrenght;
+    acceleration = gravityAcceleration * engine->gravityStrength;
 }
 
 vector3D<double> Sphere::calculateNetGravity()
@@ -56,7 +56,7 @@ vector3D<double> Sphere::calculateNetGravity()
         vector3D<double> gravityVector = distanceVector.unit() * F;
         sumOfGravityVector += gravityVector;
     }
-    return sumOfGravityVector;
+    return sumOfGravityVector * engine->gravityStrengthGui;
 }
 
 double Sphere::distanceToSphere(Sphere *sphere)

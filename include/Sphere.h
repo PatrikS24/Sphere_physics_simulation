@@ -14,7 +14,7 @@ class Sphere : public RigidBody
 {
     public:
         double radius{1};
-        vector3D<double> color = vector3D<double>(0.7, 0.1, 0.1);
+        vector3D<double> color = vector3D<double>(166/255.0f, 227/255.0f, 1);
         void update();
         void collision();
         double distanceToSphere(Sphere* sphere);

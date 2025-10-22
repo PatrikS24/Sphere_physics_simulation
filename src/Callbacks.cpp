@@ -4,6 +4,7 @@
 #include "Callbacks.h"
 #include "Renderer.h"
 #include <GL/glew.h>
+#include <GL/freeglut.h>
 #include "ImGuiLayer.h"
 #include "backends/imgui_impl_opengl3.h"
 
@@ -15,6 +16,7 @@ void initGLUT(int argc, char** argv, int w, int h, const char* title)
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(w, h);
     glutCreateWindow(title);
+
 }
 
 void idleCallback() {

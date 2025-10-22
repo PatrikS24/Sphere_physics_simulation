@@ -42,7 +42,7 @@ void Engine::calcualateDeltaTime()
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
     int deltaTime1 = (currentTime - lastTime);
     lastTime = currentTime;
-    deltaTime = deltaTime1 * physicsSpeed;
+    deltaTime = deltaTime1 * (simulationSpeed / 1000);
 }
 
 void Engine::detectCollisions()
@@ -56,7 +56,7 @@ void Engine::detectCollisions()
             if (sphere1->distanceToSphere(sphere2) < sphere1->radius + sphere2->radius)
             {
                 // Collision happened, do physics
-                std::cout << "Collision detected!" << std::endl;
+                //std::cout << "Collision detected!" << std::endl;
                 collision(sphere1, sphere2);
             }
         }

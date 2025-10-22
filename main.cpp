@@ -14,6 +14,10 @@ int windowHeight = 600;
 float guiAspect = 1 / 3.5f;
 int guiWidth = windowWidth * guiAspect;
 
+bool showVelocityVectors = false;
+bool showGravityVectors = false;
+bool showXyzAxes = false;
+
 
 int main(int argc, char** argv) {
     engine = new Engine();

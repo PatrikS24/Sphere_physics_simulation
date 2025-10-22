@@ -14,6 +14,11 @@ extern int windowHeight;
 extern int guiWidth;
 extern float guiAspect;
 
+extern bool showVelocityVectors;
+extern bool showGravityVectors;
+extern bool showXyzAxes;
+
+// Framebuffer
 extern GLuint fbo;
 extern GLuint colorTex;
 extern GLuint depthRb;

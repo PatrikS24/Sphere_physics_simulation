@@ -12,11 +12,14 @@ class Sphere;
 class Engine
 {
     public:
+        bool paused = true;
+        double simulationSpeed = 1.0;
+        float gravityStrengthGui = 1.0f;
+
         double deltaTime = 1;
         std::vector<Sphere*> spheres;
 
-        double physicsSpeed = 0.001;
-        const double gravityStrenght = 100000000000;
+        const double gravityStrength = 100000000000;
 
         // fps counter variables
         int frameCount = 0;
