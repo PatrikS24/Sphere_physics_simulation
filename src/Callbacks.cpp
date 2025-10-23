@@ -47,7 +47,6 @@ void reshapeCallback(int w, int h)
 {
     windowWidth = w;
     windowHeight = h;
-    guiWidth = w * guiAspect;
 
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);

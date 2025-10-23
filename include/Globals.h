@@ -12,7 +12,6 @@ extern Engine *engine;
 extern int windowWidth;
 extern int windowHeight;
 extern int guiWidth;
-extern float guiAspect;
 
 extern bool showVelocityVectors;
 extern bool showGravityVectors;

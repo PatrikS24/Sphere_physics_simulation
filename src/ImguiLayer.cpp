@@ -12,7 +12,7 @@
 #include "Renderer.h"
 
 void renderSimulationGui();
-void renderGeneralPropertiesGui();
+void renderPropertiesGui();
 void renderSpherePropertiesGui(int id, Sphere* sphere);
 void renderFpsCounter();
 
@@ -25,7 +25,7 @@ void initImGui()
     ImGui_ImplGLUT_InstallFuncs();
     ImGui_ImplOpenGL3_Init("#version 330");
 
-    createFramebuffer(windowWidth - guiWidth, windowHeight);
+    createFramebuffer(windowWidth - 349, windowHeight);
 }
 
 void renderImGui()
@@ -43,7 +43,7 @@ void renderImGui()
     ImGui_ImplGLUT_NewFrame();
     ImGui::NewFrame();
 
-    renderGeneralPropertiesGui();
+    renderPropertiesGui();
     renderSimulationGui();
     renderFpsCounter();
 
@@ -53,10 +53,8 @@ void renderImGui()
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void renderGeneralPropertiesGui()
+void renderPropertiesGui()
 {
-    ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(ImVec2(guiWidth, windowHeight));
     ImGui::Begin("Properties", NULL, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
 
     if (engine->paused)
@@ -98,6 +96,8 @@ void renderGeneralPropertiesGui()
     {
         ImGui::EndDisabled();
     }
+
+    guiWidth = ImGui::GetWindowSize().x;
 
     // Sphere properties
     ImGui::BeginChild("Spheres", ImVec2(0,0), ImGuiWindowFlags_NoResize);
@@ -161,7 +161,8 @@ void renderSimulationGui()
 {
     ImGui::SetNextWindowSize(ImVec2(windowWidth - guiWidth, windowHeight));
     ImGui::SetNextWindowPos(ImVec2(guiWidth, 0));
-    ImGui::Begin("Scene Viewer", 0, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar);
+    ImGui::Begin("Scene Viewer", 0, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar
+        | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
     ImGui::SetCursorPos(ImVec2(0, 0));
 
