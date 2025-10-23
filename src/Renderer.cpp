@@ -14,6 +14,7 @@ GLuint colorTex = 0;
 GLuint depthRb = 0;
 
 void renderVector(vector3D<double> vector, vector3D<double> position, double radius, vector3D<double> color);
+void renderAxis(int axis, vector3D<float> color);
 
 void initRenderer()
 {
@@ -50,6 +51,7 @@ void renderScene()
     for (Sphere* sphere : engine->spheres)
     {
         renderSphere(quad, sphere);
+
         if (showVelocityVectors)
         {
             renderVector(sphere->velocity, sphere->position, sphere->radius, vector3D(39/255.0, 230/255.0, 45/255.0));
@@ -61,6 +63,13 @@ void renderScene()
     }
 
     gluDeleteQuadric(quad);
+
+    if (showXyzAxes)
+    {
+        renderAxis(0, vector3D(201/255.0, 77/255.0, 60/255.0)); // X axis
+        renderAxis(1, vector3D(71/255.0, 186/255.0, 56/255.0)); // Y axis
+        renderAxis(2, vector3D(56/255.0, 123/255.0, 186/255.0)); // Z axis
+    }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -85,6 +94,23 @@ void renderVector(vector3D<double> vector, vector3D<double> position, double rad
     glColor3f(color.x,color.y,color.z);
     glPointSize(3.0);
     glLineWidth(5.0f);
+
+    glBegin(GL_LINES);
+    glVertex3d(beginPosition.x, beginPosition.y, beginPosition.z);
+    glVertex3d(endPosition.x, endPosition.y, endPosition.z);
+    glEnd();
+}
+
+void renderAxis(int axis, vector3D<float> color)
+{
+    vector3D<float> beginPosition = vector3D(0, 0, 0);
+    beginPosition[axis] = -100;
+    vector3D<float> endPosition = vector3D(0, 0, 0);
+    endPosition[axis] = 100;
+
+    glColor3f(color.x,color.y,color.z);
+    glPointSize(3.0);
+    glLineWidth(2.0f);
 
     glBegin(GL_LINES);
     glVertex3d(beginPosition.x, beginPosition.y, beginPosition.z);
