@@ -14,6 +14,7 @@ class RigidBody
         vector3D<double> position;
         Rotation rotation;
         vector3D<double> velocity;
+        vector3D<double> gravityVector;
         vector3D<double> acceleration;
         Scale scale;
         double mass{1};

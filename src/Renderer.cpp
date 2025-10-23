@@ -13,6 +13,8 @@ GLuint fbo = 0;
 GLuint colorTex = 0;
 GLuint depthRb = 0;
 
+void renderVector(vector3D<double> vector, vector3D<double> position, double radius, vector3D<double> color);
+
 void initRenderer()
 {
     // setup shaders, load textures, etc.
@@ -48,6 +50,14 @@ void renderScene()
     for (Sphere* sphere : engine->spheres)
     {
         renderSphere(quad, sphere);
+        if (showVelocityVectors)
+        {
+            renderVector(sphere->velocity, sphere->position, sphere->radius, vector3D(39/255.0, 230/255.0, 45/255.0));
+        }
+        if (showGravityVectors)
+        {
+            renderVector(sphere->gravityVector, sphere->position, sphere->radius, vector3D(242/255.0, 22/255.0, 22/255.0));
+        }
     }
 
     gluDeleteQuadric(quad);
@@ -65,6 +75,21 @@ void renderSphere(GLUquadric* quad, Sphere* sphere)
     glTranslatef(sphere->position.x, sphere->position.y, sphere->position.z);
     gluSphere(quad, sphere->radius, 32, 32);
     glPopMatrix();
+}
+
+void renderVector(vector3D<double> vector, vector3D<double> position, double radius, vector3D<double> color)
+{
+    vector3D<double> beginPosition = position + (unit(vector) * radius);
+    vector3D<double> endPosition = beginPosition + vector;
+
+    glColor3f(color.x,color.y,color.z);
+    glPointSize(3.0);
+    glLineWidth(5.0f);
+
+    glBegin(GL_LINES);
+    glVertex3d(beginPosition.x, beginPosition.y, beginPosition.z);
+    glVertex3d(endPosition.x, endPosition.y, endPosition.z);
+    glEnd();
 }
 
 void createFramebuffer(int width, int height)

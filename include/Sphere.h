@@ -18,12 +18,12 @@ class Sphere : public RigidBody
         void update();
         void collision();
         double distanceToSphere(Sphere* sphere);
+        vector3D<double> calculateNetGravity();
 
     private:
         void updatePosition();
         void updateVelocity();
         void applyGravity();
-        vector3D<double> calculateNetGravity();
 };
 
 #endif //C_PROGRAM_SPHERE_H

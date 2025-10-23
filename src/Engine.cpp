@@ -28,6 +28,15 @@ void Engine::update()
     calculateDeltaTime();
     calculateFps();
 
+    // is paused still have correct gravity vectors
+    if (paused && showGravityVectors)
+    {
+        for (Sphere* sphere : spheres)
+        {
+            sphere->calculateNetGravity();
+        }
+    }
+
     if (!paused)
     {
         detectCollisions();

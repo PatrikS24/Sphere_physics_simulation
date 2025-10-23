@@ -56,6 +56,7 @@ vector3D<double> Sphere::calculateNetGravity()
         vector3D<double> gravityVector = distanceVector.unit() * F;
         sumOfGravityVector += gravityVector;
     }
+    gravityVector = sumOfGravityVector * engine->gravityStrengthGui * engine->gravityStrength;
     return sumOfGravityVector * engine->gravityStrengthGui;
 }
 

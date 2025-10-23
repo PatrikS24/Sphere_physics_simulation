@@ -135,17 +135,18 @@ void renderSpherePropertiesGui(int id, Sphere* sphere)
     max = 20;
     ImGui::DragScalar("Radius", ImGuiDataType_Double, &sphere->radius, 0.2f, &min, &max);
 
-    min = 0;
+    min = -20;
     max = 20;
     ImGui::DragScalarN("Position", ImGuiDataType_Double, &sphere->position, 3, 0.1f, &min, &max);
 
-    min = 0;
+    min = -20;
     max = 20;
     ImGui::DragScalarN("Velocity", ImGuiDataType_Double, &sphere->velocity, 3, 0.1f, &min, &max);
 
     if (ImGui::Button("Remove"))
     {
         engine->spheres.erase(engine->spheres.begin() + id);
+        delete sphere;
     }
 
     if (!engine->paused)
