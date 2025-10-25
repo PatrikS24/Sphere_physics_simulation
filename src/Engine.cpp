@@ -1,7 +1,7 @@
 //
 // Created by patri on 19/10/2025.
 //
-
+#include <cmath>
 #include "Engine.h"
 #include <GL/glew.h>
 
@@ -64,7 +64,17 @@ void Engine::calculateFps()
 
 void Engine::collision(Sphere *sphere1, Sphere *sphere2)
 {
-    // Collision
+    float elasticity = 1.0f;
+    vector3D<double> n = (sphere1->position - sphere2->position);
+    n = n / norm(n);
+    double v = dot((sphere1->velocity - sphere2->velocity), n);
+    if (v > 0.0) {return;}
+    double J = - (1 + elasticity) / ((1 / sphere1->mass) + (1 / sphere2->mass));
+    J = J * v;
+
+    vector3D<double> impulse = J * n;
+    sphere1->velocity = sphere1->velocity + impulse / sphere1->mass;
+    sphere2->velocity = sphere2->velocity - impulse / sphere2->mass;
 }
 
 void Engine::calculateDeltaTime()
@@ -87,9 +97,18 @@ void Engine::detectCollisions()
             if (sphere1->distanceToSphere(sphere2) < sphere1->radius + sphere2->radius)
             {
                 // Collision happened, do physics
-                //std::cout << "Collision detected!" << std::endl;
+                std::cout << "Collision detected!" << std::endl;
+                separateSpheres(sphere1, sphere2);
                 collision(sphere1, sphere2);
             }
         }
     }
+}
+
+void Engine::separateSpheres(Sphere *sphere1, Sphere *sphere2)
+{
+    vector3D<double> differenceVector = sphere1->position - sphere2->position;
+    differenceVector = unit(differenceVector) * ((sphere1->radius + sphere2->radius) - norm(differenceVector));
+    sphere1->position = sphere1->position + ((1/2.0) * differenceVector);
+    sphere2->position = sphere2->position - ((1/2.0) * differenceVector);
 }

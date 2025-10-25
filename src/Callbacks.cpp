@@ -27,6 +27,7 @@ void idleCallback() {
 void displayCallback()
 {
     //BeginImGuiFrame();
+
     renderScene();
     renderImGui();
 

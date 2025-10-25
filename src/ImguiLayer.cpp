@@ -43,8 +43,8 @@ void renderImGui()
     ImGui_ImplGLUT_NewFrame();
     ImGui::NewFrame();
 
-    renderPropertiesGui();
     renderSimulationGui();
+    renderPropertiesGui();
     renderFpsCounter();
 
     ImGui::Render();
@@ -55,7 +55,7 @@ void renderImGui()
 
 void renderPropertiesGui()
 {
-    ImGui::Begin("Properties", NULL, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
+    ImGui::Begin("Properties", NULL, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
     if (engine->paused)
     {
@@ -117,7 +117,7 @@ void renderSpherePropertiesGui(int id, Sphere* sphere)
 {
     char childName[16];
     sprintf(childName, "Sphere %d", id);
-    ImGui::BeginChild(childName, ImVec2(0, 155), true);
+    ImGui::BeginChild(childName, ImVec2(0, 145), true);
 
     if (!engine->paused)
     {

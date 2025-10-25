@@ -29,12 +29,14 @@ class Engine
         ~Engine();
         void createSphere();
         void update();
-        void detectCollisions();
-        void collision(Sphere *sphere1, Sphere *sphere2);
 
         void calculateFps();
         void calculateDeltaTime();
-        //World();
+
+    private:
+        void detectCollisions();
+        void collision(Sphere *sphere1, Sphere *sphere2);
+        void separateSpheres(Sphere *sphere1, Sphere *sphere2);
 };
 
 #endif //C___PROGRAM_WORLD_H
