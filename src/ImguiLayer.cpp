@@ -113,23 +113,6 @@ void renderPropertiesGui()
         ImGui::EndDisabled();
     }
 
-    ImGui::SameLine();
-
-    if (engine->camera.trackedSphere == nullptr)
-    {
-        ImGui::BeginDisabled();
-    }
-    if (ImGui::Button("Untrack"))
-    {
-        engine->camera.trackedSphere = nullptr;
-        engine->camera.update();
-        ImGui::BeginDisabled();
-    }
-    if (engine->camera.trackedSphere == nullptr)
-    {
-        ImGui::EndDisabled();
-    }
-
     guiWidth = ImGui::GetWindowSize().x;
 
     // Sphere properties
@@ -188,9 +171,21 @@ void renderSpherePropertiesGui(int id, Sphere* sphere)
     }
 
     ImGui::SameLine();
-    if (ImGui::Button("Track"))
+
+    if (engine->camera.trackedSphere != sphere)
     {
-        engine->camera.trackedSphere = sphere;
+        if (ImGui::Button("Track"))
+        {
+            engine->camera.trackedSphere = sphere;
+        }
+    }
+    else
+    {
+        if (ImGui::Button("Untrack"))
+        {
+            engine->camera.trackedSphere = nullptr;
+            engine->camera.update();
+        }
     }
 
     ImGui::EndChild();
