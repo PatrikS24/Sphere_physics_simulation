@@ -7,13 +7,13 @@
 
 void Camera::moveCamera(vector2D<double> move)
 {
-    // Move along the unitsphere surrounding the trackingobject
+    // Move along the unit sphere surrounding the tracking object
     double panSpeed = 0.005;
     theta -= move.x * panSpeed / std::max(std::abs(std::sin(phi)), 1e-6);
     phi -= move.y * panSpeed;
 
-    const double PHI_MIN = 0.01;
-    const double PHI_MAX = M_PI - 0.01;
+    constexpr double PHI_MIN = 0.01;
+    constexpr double PHI_MAX = M_PI - 0.01;
 
     if (phi < PHI_MIN)
         phi = PHI_MIN;

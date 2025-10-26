@@ -42,6 +42,8 @@ add_executable(C___program
         src/Renderer.cpp
         src/ImguiLayer.cpp
         include/Globals.h
+        include/TrailSphere.h
+        src/TrailSphere.cpp
 )
 
 find_library(GLEW_LIB glew32 PATHS "C:/msys64/mingw64/lib")

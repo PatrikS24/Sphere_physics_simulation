@@ -22,8 +22,25 @@ void Engine::initEngine()
     camera.zoom = 30.0;
     camera.phi = 1.0;
     camera.theta = 1.0;
-    camera.trackingObject = NULL;
+    camera.trackingObject = nullptr;
     camera.moveCamera(vector2D<float>(0.0f, 0.0f));
+
+    Sphere *sphere1 = new Sphere();
+    Sphere *sphere2 = new Sphere();
+    sphere2->position.x = 4;
+    sphere1->velocity = vector3D<double>(0, 0, 0);
+    sphere2->velocity = vector3D<double>(0, -5, 0);
+    sphere1->radius = 2;
+    sphere2->radius = 0.5;
+    sphere1->mass = 10;
+
+    Sphere *sphere3 = new Sphere();
+    sphere3->position.x = -4;
+    sphere3->velocity = vector3D<double>(0, 5, 0);
+
+    spheres.push_back(sphere1);
+    spheres.push_back(sphere2);
+    spheres.push_back(sphere3);
 }
 
 void Engine::createSphere()

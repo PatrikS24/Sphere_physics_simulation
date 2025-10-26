@@ -49,6 +49,11 @@ void renderImGui()
     ImGui_ImplGLUT_NewFrame();
     ImGui::NewFrame();
 
+    // Pause/unpause with spacebar
+    if (ImGui::IsKeyReleased(ImGuiKey_Space)) {
+        engine->paused = !engine->paused;
+    }
+
     renderSimulationGui();
     renderPropertiesGui();
 
@@ -60,7 +65,7 @@ void renderImGui()
 
 void renderPropertiesGui()
 {
-    ImGui::Begin("Properties", NULL, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+    ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
     if (engine->paused)
     {
@@ -90,6 +95,8 @@ void renderPropertiesGui()
     ImGui::SliderScalar("Simulation Speed", ImGuiDataType_Double, &engine->simulationSpeed, &min, &max);
     ImGui::SliderFloat("Gravity Strength", &engine->gravityStrengthGui, 0.0f, 10.0f);
     ImGui::Checkbox("Show Velocity Vectors", &showVelocityVectors);
+    ImGui::SameLine();
+    ImGui::Checkbox("Show Trails", &showTrails);
     ImGui::Checkbox("Show gravity Vectors", &showGravityVectors);
     ImGui::Checkbox("Show xyz Axes", &showXyzAxes);
 
@@ -178,7 +185,7 @@ void renderSimulationGui()
     ImVec2 size(windowWidth - guiWidth, windowHeight);
     ImGui::Image((void*)(intptr_t)colorTex, size, ImVec2(0, 1), ImVec2(1, 0));
 
-
+    // Camera panning
     if (ImGui::IsWindowHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Left))
     {
         // Get the movement delta
@@ -194,6 +201,7 @@ void renderSimulationGui()
         }
     }
 
+    // Camera zooming
     float wheel_delta = ImGui::GetIO().MouseWheel;
     if (ImGui::IsWindowHovered() || wheel_delta != 0.0f)
     {

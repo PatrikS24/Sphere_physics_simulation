@@ -5,26 +5,35 @@
 #ifndef C_PROGRAM_SPHERE_H
 #define C_PROGRAM_SPHERE_H
 
+#include <format>
+
 #include "RigidBody.h"
 #include "Engine.h"
+#include <vector>
+#include "TrailSphere.h"
 
 class Engine;
+
+class TrailSphere;
 
 class Sphere : public RigidBody
 {
     public:
         double radius{1};
-        vector3D<double> color = vector3D<double>(166/255.0f, 227/255.0f, 1);
+        vector3D<double> color = vector3D<double>(1,1, 1);
+        std::vector<TrailSphere*> trailSpheres;
 
+        ~Sphere();
         void update();
-        void collision();
         double distanceToSphere(Sphere* sphere);
         vector3D<double> calculateNetGravity();
+        void killTrailSphere(TrailSphere *sphere);
 
     private:
         void updatePosition();
         void updateVelocity();
         void applyGravity();
+        void createTrailSphere();
 };
 
 #endif //C_PROGRAM_SPHERE_H

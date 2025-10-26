@@ -6,7 +6,16 @@
 #include "Engine.h"
 #include "Globals.h"
 #include <cstdlib>
+#include <GL/freeglut_std.h>
 
+
+Sphere::~Sphere()
+{
+    for (TrailSphere* sphere : trailSpheres)
+    {
+        delete sphere;
+    }
+}
 
 
 void Sphere::update()
@@ -14,6 +23,20 @@ void Sphere::update()
     applyGravity();
     updateVelocity();
     updatePosition();
+
+    int currentTime = glutGet(GLUT_ELAPSED_TIME);
+
+    if (currentTime % (int)(80 / norm2(velocity)) == 0
+        && showTrails) {
+        createTrailSphere();
+    }
+    if (showTrails)
+    {
+        for (TrailSphere *trail : trailSpheres)
+        {
+            trail->update();
+        }
+    }
 }
 
 void Sphere::updatePosition()
@@ -64,4 +87,18 @@ double Sphere::distanceToSphere(Sphere *sphere)
 {
     vector3D<double> distanceVector = sphere->position - position;
     return sqrt(pow(distanceVector.x, 2)+pow(distanceVector.y,2)+pow(distanceVector.z,2));
+}
+
+void Sphere::createTrailSphere()
+{
+    TrailSphere* sphere = new TrailSphere(this);
+    sphere->radius = radius / 5.0;
+    sphere->position = position;
+    trailSpheres.push_back(sphere);
+}
+
+void Sphere::killTrailSphere(TrailSphere *sphere)
+{
+    trailSpheres.erase(std::remove(trailSpheres.begin(), trailSpheres.end(), sphere), trailSpheres.end());
+    delete sphere;
 }

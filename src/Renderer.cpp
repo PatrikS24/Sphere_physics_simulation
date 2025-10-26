@@ -15,7 +15,7 @@ GLuint fbo = 0;
 GLuint colorTex = 0;
 GLuint depthRb = 0;
 
-void renderVector(vector3D<double> vector, vector3D<double> position, double radius, vector3D<double> color);
+void renderVector(const vector3D<double> &vector, const vector3D<double> &position, double radius, const vector3D<double> &color);
 void renderAxis(int axis, vector3D<float> color);
 
 void initRenderer()
@@ -39,11 +39,12 @@ void renderScene()
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
     glLoadIdentity();
 
 
     Camera *c = &engine->camera;
-    if (c->trackingObject != NULL)
+    if (c->trackingObject != nullptr)
     {
         gluLookAt(  c->position.x, c->position.y, c->position.z,  // eye position
               c->trackingObject->position.x, c->trackingObject->position.y, c->trackingObject->position.z,  // look at
@@ -70,6 +71,7 @@ void renderScene()
     {
         renderSphere(quad, sphere);
 
+        glDisable(GL_LIGHTING);
         if (showVelocityVectors)
         {
             renderVector(sphere->velocity, sphere->position, sphere->radius, vector3D(39/255.0, 230/255.0, 45/255.0));
@@ -78,22 +80,29 @@ void renderScene()
         {
             renderVector(sphere->gravityVector, sphere->position, sphere->radius, vector3D(242/255.0, 22/255.0, 22/255.0));
         }
+        if (showTrails)
+        {
+            renderTrailSpheres(quad, sphere);
+        }
+        glEnable(GL_LIGHTING);
     }
 
     gluDeleteQuadric(quad);
 
+    glDisable(GL_LIGHTING);
     if (showXyzAxes)
     {
         renderAxis(0, vector3D(201/255.0, 77/255.0, 60/255.0)); // X axis
         renderAxis(1, vector3D(71/255.0, 186/255.0, 56/255.0)); // Y axis
         renderAxis(2, vector3D(56/255.0, 123/255.0, 186/255.0)); // Z axis
     }
+    glEnable(GL_LIGHTING);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
 
-void renderSphere(GLUquadric* quad, Sphere* sphere)
+void renderSphere(GLUquadric* quad, const Sphere* sphere)
 {
     vector3D<double> sphereColor = sphere->color;
     glColor3f(sphereColor.x, sphereColor.y, sphereColor.z);
@@ -104,7 +113,7 @@ void renderSphere(GLUquadric* quad, Sphere* sphere)
     glPopMatrix();
 }
 
-void renderVector(vector3D<double> vector, vector3D<double> position, double radius, vector3D<double> color)
+void renderVector(const vector3D<double> &vector, const vector3D<double> &position, double radius, const vector3D<double> &color)
 {
     vector3D<double> beginPosition = position + (unit(vector) * radius);
     vector3D<double> endPosition = beginPosition + vector;
@@ -164,4 +173,17 @@ void createFramebuffer(int width, int height)
         std::cerr << "Framebuffer not complete!\n";
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void renderTrailSpheres(GLUquadric* quad, const Sphere* sphere)
+{
+    for (TrailSphere *trail : sphere->trailSpheres)
+    {
+        glColor3f(1, 1, 1);
+
+        glPushMatrix();
+        glTranslatef(trail->position.x, trail->position.y, trail->position.z);
+        gluSphere(quad, trail->radius, 8, 8);
+        glPopMatrix();
+    }
 }

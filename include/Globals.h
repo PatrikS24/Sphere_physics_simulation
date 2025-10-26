@@ -16,6 +16,7 @@ extern int guiWidth;
 extern bool showVelocityVectors;
 extern bool showGravityVectors;
 extern bool showXyzAxes;
+extern bool showTrails;
 
 // Framebuffer
 extern GLuint fbo;

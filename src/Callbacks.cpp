@@ -52,7 +52,7 @@ void reshapeCallback(int w, int h)
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45.0, (double)(w - guiWidth)/ (double)h, 1.0, 100.0);
+    gluPerspective(45.0, (double)(w - guiWidth)/ (double)h, 1.0, 300.0);
     glMatrixMode(GL_MODELVIEW);
     createFramebuffer(w - guiWidth, h);
 }
