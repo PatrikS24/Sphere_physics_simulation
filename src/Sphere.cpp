@@ -26,8 +26,7 @@ void Sphere::update()
 
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
 
-    if (currentTime % (int)(80 / norm2(velocity)) == 0
-        && showTrails) {
+    if (showTrails && currentTime % std::max((int)(80 / std::max(norm2(velocity), 1.0)), 1) == 0) {
         createTrailSphere();
     }
     if (showTrails)
@@ -74,7 +73,7 @@ vector3D<double> Sphere::calculateNetGravity()
 
         if (distance == 0) continue;
 
-        double F = G * ((mass * sphere->mass) / pow(distance, 2));
+        double F = G * ((mass * sphere->mass) / pow(std::max(distance, radius), 2));
 
         vector3D<double> gravityVector = distanceVector.unit() * F;
         sumOfGravityVector += gravityVector;

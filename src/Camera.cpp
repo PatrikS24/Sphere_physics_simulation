@@ -4,6 +4,7 @@
 
 #include "Camera.h"
 #include <cmath>
+#include "Sphere.h"
 
 void Camera::moveCamera(vector2D<double> move)
 {
@@ -21,9 +22,14 @@ void Camera::moveCamera(vector2D<double> move)
         phi = PHI_MAX;
 
     vector3D<double> newPosition;
-    newPosition.x = cos(theta) * sin(phi);
-    newPosition.y = sin(theta) * sin(phi);
+    newPosition.x = (cos(theta) * sin(phi));
+    newPosition.y = (sin(theta) * sin(phi));
     newPosition.z = cos(phi);
+
+    if (trackedSphere != nullptr)
+    {
+        newPosition += trackedSphere->position;
+    }
 
     position = newPosition * zoom;
 }
@@ -35,5 +41,12 @@ void Camera::update()
     newPosition.y = sin(theta) * sin(phi);
     newPosition.z = cos(phi);
 
-    position = newPosition * zoom;
+    newPosition *= zoom;
+
+    if (trackedSphere != nullptr)
+    {
+        newPosition += trackedSphere->position;
+    }
+
+    position = newPosition;
 }

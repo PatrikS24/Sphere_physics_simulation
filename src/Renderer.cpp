@@ -44,10 +44,10 @@ void renderScene()
 
 
     Camera *c = &engine->camera;
-    if (c->trackingObject != nullptr)
+    if (c->trackedSphere != nullptr)
     {
         gluLookAt(  c->position.x, c->position.y, c->position.z,  // eye position
-              c->trackingObject->position.x, c->trackingObject->position.y, c->trackingObject->position.z,  // look at
+              c->trackedSphere->position.x, c->trackedSphere->position.y, c->trackedSphere->position.z,  // look at
               0.0, 1.0, 0.0); // up vector
     } else
     {

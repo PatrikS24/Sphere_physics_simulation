@@ -11,7 +11,7 @@ class Camera
     vector3D<double> position;
     double phi;
     double theta;
-    Sphere *trackingObject;
+    Sphere *trackedSphere;
     double zoom;
 
     void moveCamera(vector2D<double> move);

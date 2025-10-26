@@ -113,6 +113,23 @@ void renderPropertiesGui()
         ImGui::EndDisabled();
     }
 
+    ImGui::SameLine();
+
+    if (engine->camera.trackedSphere == nullptr)
+    {
+        ImGui::BeginDisabled();
+    }
+    if (ImGui::Button("Untrack"))
+    {
+        engine->camera.trackedSphere = nullptr;
+        engine->camera.update();
+        ImGui::BeginDisabled();
+    }
+    if (engine->camera.trackedSphere == nullptr)
+    {
+        ImGui::EndDisabled();
+    }
+
     guiWidth = ImGui::GetWindowSize().x;
 
     // Sphere properties
@@ -143,11 +160,11 @@ void renderSpherePropertiesGui(int id, Sphere* sphere)
     sprintf(childName, "Sphere %d", id + 1);
     ImGui::Text(childName);
 
-    double min = 0;
+    double min = 0.5;
     double max = 1000;
     ImGui::DragScalar("Mass", ImGuiDataType_Double, &sphere->mass, 0.5f, &min, &max);
 
-    min = 0;
+    min = 0.2;
     max = 20;
     ImGui::DragScalar("Radius", ImGuiDataType_Double, &sphere->radius, 0.2f, &min, &max);
 
@@ -168,6 +185,12 @@ void renderSpherePropertiesGui(int id, Sphere* sphere)
     if (!engine->paused)
     {
         ImGui::EndDisabled();
+    }
+
+    ImGui::SameLine();
+    if (ImGui::Button("Track"))
+    {
+        engine->camera.trackedSphere = sphere;
     }
 
     ImGui::EndChild();

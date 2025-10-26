@@ -22,7 +22,7 @@ void Engine::initEngine()
     camera.zoom = 30.0;
     camera.phi = 1.0;
     camera.theta = 1.0;
-    camera.trackingObject = nullptr;
+    camera.trackedSphere = nullptr;
     camera.moveCamera(vector2D<float>(0.0f, 0.0f));
 
     Sphere *sphere1 = new Sphere();
@@ -72,6 +72,11 @@ void Engine::update()
             sphere->update();
         }
     }
+
+    if (camera.trackedSphere != nullptr)
+    {
+        camera.update();
+    }
 }
 
 void Engine::calculateFps()
@@ -82,7 +87,7 @@ void Engine::calculateFps()
     int timeInterval = currentTime - previousTime;
 
     if (timeInterval > 1000) {
-        fps = frameCount / (timeInterval / 1000.0f);
+        fps = frameCount / (std::max((timeInterval / 1000.0f), 0.01f));
         previousTime = currentTime;
         frameCount = 0;
     }
