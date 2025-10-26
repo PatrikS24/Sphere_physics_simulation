@@ -11,7 +11,7 @@
 Engine *engine = nullptr;
 int windowWidth = 800;
 int windowHeight = 600;
-int guiWidth = 349;
+int guiWidth = 374;
 
 bool showVelocityVectors = false;
 bool showGravityVectors = false;

@@ -24,6 +24,7 @@ void Engine::initEngine()
     camera.theta = 1.0;
     camera.trackedSphere = nullptr;
     camera.moveCamera(vector2D<float>(0.0f, 0.0f));
+    engine->camera.update();
 
     Sphere *sphere1 = new Sphere();
     Sphere *sphere2 = new Sphere();

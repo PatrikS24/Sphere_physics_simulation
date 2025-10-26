@@ -27,6 +27,7 @@ void Camera::moveCamera(vector2D<double> move)
     {
         newPosition += trackedSphere->position;
     }
+    position = newPosition;
 }
 
 void Camera::update()

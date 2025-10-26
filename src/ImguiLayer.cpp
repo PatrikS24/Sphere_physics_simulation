@@ -65,7 +65,9 @@ void renderImGui()
 
 void renderPropertiesGui()
 {
-    ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    ImGui::SetNextWindowSize(ImVec2(guiWidth, windowHeight));
+    ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
     if (engine->paused)
     {
@@ -113,10 +115,8 @@ void renderPropertiesGui()
         ImGui::EndDisabled();
     }
 
-    guiWidth = ImGui::GetWindowSize().x;
-
     // Sphere properties
-    ImGui::BeginChild("Spheres", ImVec2(0,0), ImGuiWindowFlags_NoResize);
+    ImGui::BeginChild("Spheres", ImVec2(0,-1), ImGuiWindowFlags_None);
     ImGui::Text("Spheres");
 
     for (int i = 0; i < engine->spheres.size(); i++)
@@ -209,6 +209,7 @@ void renderSimulationGui()
         // Get the movement delta
         ImVec2 delta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Left);
 
+
         // Check if a significant drag has occurred
         if (delta.x != 0.0f || delta.y != 0.0f)
         {
@@ -221,7 +222,7 @@ void renderSimulationGui()
 
     // Camera zooming
     float wheel_delta = ImGui::GetIO().MouseWheel;
-    if (ImGui::IsWindowHovered() || wheel_delta != 0.0f)
+    if (ImGui::IsWindowHovered() && wheel_delta != 0.0f)
     {
         engine->camera.zoom -= wheel_delta;
         engine->camera.update();
