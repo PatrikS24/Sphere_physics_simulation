@@ -17,6 +17,15 @@ Engine::~Engine()
     }
 }
 
+void Engine::initEngine()
+{
+    camera.zoom = 30.0;
+    camera.phi = 1.0;
+    camera.theta = 1.0;
+    camera.trackingObject = NULL;
+    camera.moveCamera(vector2D<float>(0.0f, 0.0f));
+}
+
 void Engine::createSphere()
 {
     Sphere *sphere = new Sphere();

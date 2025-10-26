@@ -4,6 +4,7 @@
 
 #ifndef C___PROGRAM_WORLD_H
 #define C___PROGRAM_WORLD_H
+#include "Camera.h"
 #include <vector>
 #include "Sphere.h"
 
@@ -12,6 +13,7 @@ class Sphere;
 class Engine
 {
     public:
+        Camera camera;
         bool paused = true;
         double simulationSpeed = 1.0;
         float gravityStrengthGui = 1.0f;
@@ -27,6 +29,7 @@ class Engine
         int fps = 0;
 
         ~Engine();
+        void initEngine();
         void createSphere();
         void update();
 

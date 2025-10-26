@@ -21,6 +21,8 @@ bool showXyzAxes = false;
 int main(int argc, char** argv) {
     engine = new Engine();
 
+    engine->initEngine();
+
 
     Sphere *sphere1 = new Sphere();
     Sphere *sphere2 = new Sphere();

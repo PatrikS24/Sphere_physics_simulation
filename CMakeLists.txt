@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 # Your own include directory
 include_directories(include)
+include_directories(src)
 
 # === ImGui library ===
 add_library(imgui
@@ -29,6 +30,8 @@ add_executable(C___program
         include/TransformStructs.h
         include/Sphere.h
         include/Vector.h
+        include/Camera.h
+        src/Camera.cpp
         include/Engine.h
         src/Sphere.cpp
         src/Engine.cpp

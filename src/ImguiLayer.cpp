@@ -10,6 +10,7 @@
 #include "backends/imgui_impl_glut.h"
 #include "Globals.h"
 #include "Renderer.h"
+#include <stdio.h>
 
 void renderSimulationGui();
 void renderPropertiesGui();
@@ -24,6 +25,11 @@ void initImGui()
     ImGui_ImplGLUT_Init();
     ImGui_ImplGLUT_InstallFuncs();
     ImGui_ImplOpenGL3_Init("#version 330");
+
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.FrameRounding = 7.0f;
+    style.WindowRounding = 5.0f;
+    style.ChildRounding = 5.0f;
 
     createFramebuffer(windowWidth - 349, windowHeight);
 }
@@ -45,7 +51,6 @@ void renderImGui()
 
     renderSimulationGui();
     renderPropertiesGui();
-    renderFpsCounter();
 
     ImGui::Render();
     glViewport(0, 0, windowWidth, windowHeight);
@@ -75,6 +80,10 @@ void renderPropertiesGui()
         }
         ImGui::PopStyleColor();
     }
+
+
+    ImGui::SameLine(290);
+    ImGui::Text("FPS: %ld", engine->fps);
 
     double min = 0.0;
     double max = 5.0;
@@ -162,22 +171,36 @@ void renderSimulationGui()
     ImGui::SetNextWindowSize(ImVec2(windowWidth - guiWidth, windowHeight));
     ImGui::SetNextWindowPos(ImVec2(guiWidth, 0));
     ImGui::Begin("Scene Viewer", 0, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar
-        | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+        | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollWithMouse);
 
     ImGui::SetCursorPos(ImVec2(0, 0));
 
     ImVec2 size(windowWidth - guiWidth, windowHeight);
     ImGui::Image((void*)(intptr_t)colorTex, size, ImVec2(0, 1), ImVec2(1, 0));
 
-    ImGui::End();
-}
 
-void renderFpsCounter()
-{
-    ImGui::SetNextWindowSize(ImVec2(90, 20));
-    ImGui::SetNextWindowPos(ImVec2(windowWidth - 90 - 10, 10));
-    ImGui::Begin("FpsCounter", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
-    ImGui::Text("FPS: %d", engine->fps);
+    if (ImGui::IsWindowHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Left))
+    {
+        // Get the movement delta
+        ImVec2 delta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Left);
+
+        // Check if a significant drag has occurred
+        if (delta.x != 0.0f || delta.y != 0.0f)
+        {
+            engine->camera.moveCamera(vector2D<float>(delta.x, delta.y));
+
+            // If you want per-frame delta, reset it:
+            ImGui::ResetMouseDragDelta(ImGuiMouseButton_Left);
+        }
+    }
+
+    float wheel_delta = ImGui::GetIO().MouseWheel;
+    if (ImGui::IsWindowHovered() || wheel_delta != 0.0f)
+    {
+        engine->camera.zoom -= wheel_delta;
+        engine->camera.update();
+    }
+
     ImGui::End();
 }
 

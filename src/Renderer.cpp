@@ -2,12 +2,14 @@
 // Created by patri on 20/10/2025.
 //
 
+#include "Camera.h"
 #include "Renderer.h"
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include "vector.h"
 #include "Sphere.h"
 #include "Globals.h"
+
 
 GLuint fbo = 0;
 GLuint colorTex = 0;
@@ -39,10 +41,26 @@ void renderScene()
 
     glLoadIdentity();
 
-    // Position the camera
-    gluLookAt(0.0, 0.0, 30.0,  // eye position
+
+    Camera *c = &engine->camera;
+    if (c->trackingObject != NULL)
+    {
+        gluLookAt(  c->position.x, c->position.y, c->position.z,  // eye position
+              c->trackingObject->position.x, c->trackingObject->position.y, c->trackingObject->position.z,  // look at
+              0.0, 1.0, 0.0); // up vector
+    } else
+    {
+        gluLookAt(  c->position.x, c->position.y, c->position.z,  // eye position
               0.0, 0.0, 0.0,  // look at
               0.0, 1.0, 0.0); // up vector
+    }
+
+
+    /*
+    *gluLookAt(0.0,0.0,30.0,  // eye position
+    0.0, 0.0, 0.0,  // look at
+    0.0, 1.0, 0.0); // up vector
+    */
 
     // Render all spheres
     GLUquadric* quad = gluNewQuadric();
