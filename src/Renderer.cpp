@@ -36,7 +36,7 @@ void renderScene()
     // Draw to framebuffer
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     glViewport(0, 0, windowWidth - guiWidth, windowHeight);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(14/255.0, 11/255.0, 23/255.0, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -48,20 +48,13 @@ void renderScene()
     {
         gluLookAt(  c->position.x, c->position.y, c->position.z,  // eye position
               c->trackedSphere->position.x, c->trackedSphere->position.y, c->trackedSphere->position.z,  // look at
-              0.0, 1.0, 0.0); // up vector
+              0.0, 0.0, 1.0); // up vector
     } else
     {
         gluLookAt(  c->position.x, c->position.y, c->position.z,  // eye position
               0.0, 0.0, 0.0,  // look at
-              0.0, 1.0, 0.0); // up vector
+              0.0, 0.0, 1.0); // up vector
     }
-
-
-    /*
-    *gluLookAt(0.0,0.0,30.0,  // eye position
-    0.0, 0.0, 0.0,  // look at
-    0.0, 1.0, 0.0); // up vector
-    */
 
     // Render all spheres
     GLUquadric* quad = gluNewQuadric();

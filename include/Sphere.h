@@ -20,7 +20,7 @@ class Sphere : public RigidBody
 {
     public:
         double radius{1};
-        vector3D<double> color = vector3D<double>(1,1, 1);
+        vector3D<double> color = vector3D<double>(219/255.0, 211/255.0, 245/255.0);
         std::vector<TrailSphere*> trailSpheres;
 
         ~Sphere();
