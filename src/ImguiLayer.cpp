@@ -69,6 +69,7 @@ void renderPropertiesGui()
     ImGui::SetNextWindowSize(ImVec2(guiWidth, windowHeight));
     ImGui::Begin("Properties", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
+    // Pause/unpause button
     if (engine->paused)
     {
         ImGui::PushStyleColor(21, ImVec4(71/255.0f, 166/255.0f, 50/255.0f, 1));
@@ -88,10 +89,11 @@ void renderPropertiesGui()
         ImGui::PopStyleColor();
     }
 
-
+    // Fps data
     ImGui::SameLine(290);
     ImGui::Text("FPS: %ld", engine->fps);
 
+    // Simulation and visual properties
     double min = 0.0;
     double max = 5.0;
     ImGui::SliderScalar("Simulation Speed", ImGuiDataType_Double, &engine->simulationSpeed, &min, &max);

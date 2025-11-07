@@ -121,7 +121,7 @@ void renderVector(const vector3D<double> &vector, const vector3D<double> &positi
     glEnd();
 }
 
-void renderAxis(int axis, vector3D<float> color)
+void renderAxis(int axis, vector3D<float> color)  // axis 0 = X, 1 = Y, 2 = Z
 {
     vector3D<float> beginPosition = vector3D(0, 0, 0);
     beginPosition[axis] = -100;
@@ -136,6 +136,19 @@ void renderAxis(int axis, vector3D<float> color)
     glVertex3d(beginPosition.x, beginPosition.y, beginPosition.z);
     glVertex3d(endPosition.x, endPosition.y, endPosition.z);
     glEnd();
+}
+
+void renderTrailSpheres(GLUquadric* quad, const Sphere* sphere)
+{
+    for (TrailSphere *trail : sphere->trailSpheres)
+    {
+        glColor3f(1, 1, 1);
+
+        glPushMatrix();
+        glTranslatef(trail->position.x, trail->position.y, trail->position.z);
+        gluSphere(quad, trail->radius, 8, 8);
+        glPopMatrix();
+    }
 }
 
 void createFramebuffer(int width, int height)
@@ -166,17 +179,4 @@ void createFramebuffer(int width, int height)
         std::cerr << "Framebuffer not complete!\n";
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
-void renderTrailSpheres(GLUquadric* quad, const Sphere* sphere)
-{
-    for (TrailSphere *trail : sphere->trailSpheres)
-    {
-        glColor3f(1, 1, 1);
-
-        glPushMatrix();
-        glTranslatef(trail->position.x, trail->position.y, trail->position.z);
-        gluSphere(quad, trail->radius, 8, 8);
-        glPopMatrix();
-    }
 }

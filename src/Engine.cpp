@@ -19,6 +19,7 @@ Engine::~Engine()
 
 void Engine::initEngine()
 {
+    // Initiate camera position
     camera.zoom = 30.0;
     camera.phi = 1.0;
     camera.theta = 1.0;
@@ -26,6 +27,7 @@ void Engine::initEngine()
     camera.moveCamera(vector2D<float>(0.0f, 0.0f));
     engine->camera.update();
 
+    // Initiate example spheres
     Sphere *sphere1 = new Sphere();
     Sphere *sphere2 = new Sphere();
     sphere2->position.x = 4;
@@ -55,7 +57,7 @@ void Engine::update()
     calculateDeltaTime();
     calculateFps();
 
-    // is paused still have correct gravity vectors
+    // If is paused, still have correct gravity vectors
     if (paused && showGravityVectors)
     {
         for (Sphere* sphere : spheres)
@@ -94,6 +96,7 @@ void Engine::calculateFps()
     }
 }
 
+// Collision between two spheres with mass, size and velocity accounted for
 void Engine::collision(Sphere *sphere1, Sphere *sphere2)
 {
     float elasticity = 1.0f;
@@ -128,8 +131,6 @@ void Engine::detectCollisions()
 
             if (sphere1->distanceToSphere(sphere2) < sphere1->radius + sphere2->radius)
             {
-                // Collision happened, do physics
-                std::cout << "Collision detected!" << std::endl;
                 separateSpheres(sphere1, sphere2);
                 collision(sphere1, sphere2);
             }
@@ -137,6 +138,7 @@ void Engine::detectCollisions()
     }
 }
 
+// Separate spheres from each other if they are intersecting
 void Engine::separateSpheres(Sphere *sphere1, Sphere *sphere2)
 {
     vector3D<double> differenceVector = sphere1->position - sphere2->position;

@@ -26,9 +26,12 @@ void Sphere::update()
 
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
 
-    if (showTrails && currentTime % std::max((int)(80 / std::max(norm2(velocity), 1.0)), 1) == 0) {
+    // More trail spheres are created when a sphere is moving faster
+    if (showTrails && currentTime % std::max((int)(80 / std::max(norm2(velocity), 1.0)), 1) == 0)
+    {
         createTrailSphere();
     }
+
     if (showTrails)
     {
         for (TrailSphere *trail : trailSpheres)
@@ -57,6 +60,9 @@ void Sphere::applyGravity()
     acceleration = gravityAcceleration * engine->gravityStrength;
 }
 
+// Method for calculating direction and strength of net gravity
+// Barnes-Hut algorithm would be faster than this O(n^2) solution but the purpose of this program is mostly for
+// playing around with less than 10 spheres
 vector3D<double> Sphere::calculateNetGravity()
 {
     static const double G = 6.674e-11;
@@ -69,7 +75,7 @@ vector3D<double> Sphere::calculateNetGravity()
         if (sphere == this) continue;
 
         vector3D<double> distanceVector = (sphere->position - position);
-        double distance = sqrt(pow(distanceVector.x, 2)+pow(distanceVector.y,2)+pow(distanceVector.z,2));
+        double distance = this->distanceToSphere(sphere);
 
         if (distance == 0) continue;
 

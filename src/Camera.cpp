@@ -8,7 +8,7 @@
 
 void Camera::moveCamera(vector2D<double> move)
 {
-    // Move along the unit sphere surrounding the tracking object
+    // Move along the unit sphere surrounding the tracking object according to mouse movements
     double panSpeed = 0.005;
     theta += move.x * panSpeed;
     phi -= move.y * panSpeed;

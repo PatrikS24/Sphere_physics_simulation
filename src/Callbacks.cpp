@@ -21,24 +21,15 @@ void initGLUT(int argc, char** argv, int w, int h, const char* title)
 }
 
 void idleCallback() {
-    glutPostRedisplay();  // Tell GLUT "please call display() again soon"
+    glutPostRedisplay();
 }
 
 void displayCallback()
 {
-    //BeginImGuiFrame();
-
     renderScene();
     renderImGui();
 
     engine->update();
-
-    /*
-    // Example ImGui window
-    ImGui::Begin("Stats");
-    ImGui::Text("FPS: %.1f", engine->fps);
-    ImGui::End();
-    */
 
     EndImGuiFrame();
     glutSwapBuffers();
@@ -77,7 +68,6 @@ void keyboardCallback(unsigned char key, int x, int y)
 
 void registerInputCallbacks()
 {
-    // set mouse/keyboard callbacks here
     glutMouseFunc(mouseCallback);
     glutMotionFunc(motionCallback);
     glutPassiveMotionFunc(motionCallback);
